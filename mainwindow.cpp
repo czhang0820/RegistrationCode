@@ -81,6 +81,26 @@ bool MainWindow::isMacAddress(QString mac)
         return false;
 }
 
+void MainWindow::writeToLog()
+{
+    QDateTime time=QDateTime::currentDateTime();
+    QString tmpStr1=QStringLiteral("[") + time.toString("yyyy-MM-dd hh:mm:ss") + QStringLiteral("] 机器码:") + ui->lineEdit->text() + "\r\n";
+    QString tmpStr2=QStringLiteral("[") + time.toString("yyyy-MM-dd hh:mm:ss") + QStringLiteral("] 注册码:") + ui->lineEdit_2->text() + "\r\n";
+    QString tmpStr3=QStringLiteral("[") + time.toString("yyyy-MM-dd hh:mm:ss") + QStringLiteral("] 有效期:") + ui->dateEdit->text() + "\r\n";
+    QString tmpStr4="----------------------------------------------------------------\r\n";
+    QString fullPath="D:/RegisterCode.log";
+    QFile logData(fullPath);
+    if(logData.open(QIODevice::WriteOnly | QIODevice::Append)){
+        QTextStream in(&logData);
+        in.setCodec("UTF-8");
+        in << tmpStr1;
+        in << tmpStr2;
+        in << tmpStr3;
+        in << tmpStr4;
+        logData.close();
+    }
+}
+
 void MainWindow::on_pushButton_clicked()
 {
 
@@ -99,6 +119,9 @@ void MainWindow::on_pushButton_clicked()
     QString realCode=ccx.XorEncryptDecrypt(RegistrationCode,1);
     realCode.replace(ccx.XorEncryptDecrypt("-",1),"-");
     ui->lineEdit_2->setText(realCode);
+#ifdef _WIN32
+    writeToLog();
+#endif
     ui->dateEdit->setDateTime(QDateTime::fromString(srandDateTime(),"yyyy-MM-dd hh:mm:ss"));
 }
 

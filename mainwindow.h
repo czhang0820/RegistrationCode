@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QTime>
 #include <QTimer>
+#include <QFile>
 #include <QDebug>
 #include "ccxor.h"
 
@@ -26,6 +27,8 @@ private:
     QString eversedOrder(QString str);
     QString srandDateTime();
     bool isMacAddress(QString mac);
+
+    void writeToLog();
 
 private slots:
     void on_pushButton_clicked();
