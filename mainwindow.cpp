@@ -54,7 +54,7 @@ QString MainWindow::eversedOrder(QString str)
 QString MainWindow::srandDateTime()
 {
     int yer,mon,day,hh,mm,ss;
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+    qsrand(uint(QTime(0,0,0).secsTo(QTime::currentTime())));
     yer=2090+qrand()%9;
     mon=1+qrand()%11;
     day=1+qrand()%29;
